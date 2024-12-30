@@ -11,7 +11,6 @@ class NetworkImageBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("--. image builder:");
     final data = iComponent?.data as Single;
 
     final imageUrl = data.data as NetworkImageComponentData;

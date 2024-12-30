@@ -19,12 +19,15 @@ class ContainerBuilder extends StatelessWidget {
     return Padding(
       padding: style.padding.paddingBuilderToEdgeInsets(),
       child: Container(
-        height: style.height?.toDouble(),
-        width: style.width?.toDouble(),
+        height: style.height?.toDouble() ?? double.infinity,
+        width: style.width?.toDouble() ?? double.infinity,
         padding: style.innerPadding.paddingBuilderToEdgeInsets(),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              style.border?.borderRadius?.toDouble() ?? 0.0),
+          borderRadius: style.border?.radius.borderBuilderToBorderRadius(),
+          border: Border.all(
+            color: parseColor(style.border!.color!),
+            width: style.border?.width?.toDouble() ?? 0.0
+          ),
           color: style.backgroundColor != null
               ? parseColor(style.backgroundColor!)
               : null,

@@ -12,8 +12,10 @@ class ComponentModel {
   static const String typeROW = "row";
   static const String typeCOLUMN = "column";
   static const String typeNetworkImage = "networkImage";
-  static const String typeListview = "listview";
+  static const String typeListview = "listView";
   static const String typeContainer = "container";
+  static const String typeSpacer = "spacer";
+  
 
   factory ComponentModel.fromMap(Map<String, dynamic> map) {
     return ComponentModel(

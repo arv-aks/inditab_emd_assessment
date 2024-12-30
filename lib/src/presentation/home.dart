@@ -46,6 +46,9 @@ class _HomeState extends State<Home> {
 
     try {
       componentModel = JsonDeserializer().deserialize(response.data);
+
+    debugPrint("--> response component type: ${componentModel?.myObject.first?.type}", wrapWidth: 1024);
+
     } catch (e) {
       print("-->errro: $e");
       setState(() {
@@ -64,6 +67,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         actions: [
           IconButton(
               onPressed: () async {
@@ -77,7 +81,7 @@ class _HomeState extends State<Home> {
             child: isLoading
                 ? const CustomLoader()
                 : error.isNotEmpty
-                    ? Text(error)
+                    ? Text(error, style: const TextStyle(color: Colors.black),)
                     : ComponentBuilder(
                         iComponent: componentModel?.myObject.first,
                       )),

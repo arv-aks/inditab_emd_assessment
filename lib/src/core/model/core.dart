@@ -35,64 +35,140 @@ class PaddingBuilder {
 }
 
 class BorderBuilder {
-  final String? borderColor;
-  final num? borderRadius;
-  final num? borderWidth;
+  final String? color;
+  final RadiusBuilder? radius;
+  final num? width;
   BorderBuilder({
-    this.borderColor,
-    this.borderRadius,
-    this.borderWidth,
+    this.color,
+    this.radius,
+    this.width,
   });
 
   BorderBuilder copyWith({
-    String? borderColor,
-    num? borderRadius,
-    num? borderWidth,
+    String? color,
+    RadiusBuilder? radius,
+    num? width,
   }) {
     return BorderBuilder(
-      borderColor: borderColor ?? this.borderColor,
-      borderRadius: borderRadius ?? this.borderRadius,
-      borderWidth: borderWidth ?? this.borderWidth,
+      color: color ?? this.color,
+      radius: radius ?? this.radius,
+      width: width ?? this.width,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'borderColor': borderColor,
-      'borderRadius': borderRadius,
-      'borderWidth': borderWidth,
+      'color': color,
+      'radius': radius?.toMap(),
+      'width': width,
     };
   }
 
   factory BorderBuilder.fromMap(Map<String, dynamic> map) {
     return BorderBuilder(
-      borderColor: map['borderColor'] != null ? map['borderColor'] as String : null,
-      borderRadius: map['borderRadius'] != null ? map['borderRadius'] as num : null,
-      borderWidth: map['borderWidth'] != null ? map['borderWidth'] as num : null,
+      color: map['color'] != null ? map['color'] as String : null,
+      radius: map['radius'] != null
+          ? RadiusBuilder.fromMap(map['radius'] as Map<String, dynamic>)
+          : null,
+      width: map['width'] != null ? map['width'] as num : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory BorderBuilder.fromJson(String source) => BorderBuilder.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory BorderBuilder.fromJson(String source) =>
+      BorderBuilder.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'BorderBuilder(borderColor: $borderColor, borderRadius: $borderRadius, borderWidth: $borderWidth)';
+  String toString() =>
+      'BorderBuilder(color: $color, radius: $radius, width: $width)';
 
   @override
   bool operator ==(covariant BorderBuilder other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.borderColor == borderColor &&
-      other.borderRadius == borderRadius &&
-      other.borderWidth == borderWidth;
+
+    return other.color == color &&
+        other.radius == radius &&
+        other.width == width;
   }
 
   @override
-  int get hashCode => borderColor.hashCode ^ borderRadius.hashCode ^ borderWidth.hashCode;
+  int get hashCode => color.hashCode ^ radius.hashCode ^ width.hashCode;
 }
 
+class RadiusBuilder {
+  final num? topLeft;
+  final num? bottomLeft;
+  final num? bottomRight;
+  final num? topRight;
+  RadiusBuilder({
+    this.topLeft,
+    this.bottomLeft,
+    this.bottomRight,
+    this.topRight,
+  });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'topLeft': topLeft,
+      'bottomLeft': bottomLeft,
+      'bottomRight': bottomRight,
+      'topRight': topRight,
+    };
+  }
+
+  factory RadiusBuilder.fromMap(Map<String, dynamic> map) {
+    return RadiusBuilder(
+      topLeft: map['topLeft'] != null ? map['topLeft'] as num : null,
+      bottomLeft: map['bottomLeft'] != null ? map['bottomLeft'] as num : null,
+      bottomRight:
+          map['bottomRight'] != null ? map['bottomRight'] as num : null,
+      topRight: map['topRight'] != null ? map['topRight'] as num : null,
+    );
+  }
+
+  RadiusBuilder copyWith({
+    num? topLeft,
+    num? bottomLeft,
+    num? bottomRight,
+    num? topRight,
+  }) {
+    return RadiusBuilder(
+      topLeft: topLeft ?? this.topLeft,
+      bottomLeft: bottomLeft ?? this.bottomLeft,
+      bottomRight: bottomRight ?? this.bottomRight,
+      topRight: topRight ?? this.topRight,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory RadiusBuilder.fromJson(String source) =>
+      RadiusBuilder.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'RadiusBuilder(topLeft: $topLeft, bottomLeft: $bottomLeft, bottomRight: $bottomRight, topRight: $topRight)';
+  }
+
+  @override
+  bool operator ==(covariant RadiusBuilder other) {
+    if (identical(this, other)) return true;
+
+    return other.topLeft == topLeft &&
+        other.bottomLeft == bottomLeft &&
+        other.bottomRight == bottomRight &&
+        other.topRight == topRight;
+  }
+
+  @override
+  int get hashCode {
+    return topLeft.hashCode ^
+        bottomLeft.hashCode ^
+        bottomRight.hashCode ^
+        topRight.hashCode;
+  }
+}
 
 Color parseColor(String hexColor) {
   // Add the alpha channel if not provided
@@ -102,7 +178,6 @@ Color parseColor(String hexColor) {
   // Convert the hex string to an integer and create a Color
   return Color(int.parse(hexColor, radix: 16));
 }
-
 
 extension EdgeInsetsExtension on PaddingBuilder? {
   EdgeInsetsGeometry paddingBuilderToEdgeInsets() {
@@ -115,6 +190,20 @@ extension EdgeInsetsExtension on PaddingBuilder? {
       bottom: this?.bottom?.toDouble() ?? 0.0,
       left: this?.left?.toDouble() ?? 0.0,
       right: this?.right?.toDouble() ?? 0.0,
+    );
+  }
+}
+
+extension BorderRadiusExtension on RadiusBuilder? {
+  BorderRadiusGeometry borderBuilderToBorderRadius() {
+    if (this == null) {
+      return const BorderRadius.only();
+    }
+    return BorderRadius.only(
+      topLeft: Radius.circular(this?.topLeft?.toDouble() ?? 0.0),
+      topRight: Radius.circular(this?.topRight?.toDouble() ?? 0.0),
+      bottomLeft: Radius.circular(this?.bottomLeft?.toDouble() ?? 0.0),
+      bottomRight: Radius.circular(this?.bottomRight?.toDouble() ?? 0.0),
     );
   }
 }

@@ -30,6 +30,8 @@ class ComponentBuilder extends StatelessWidget {
         return ListViewBuilder(iComponent: iComponent);
       case ComponentModel.typeContainer:
         return ContainerBuilder(iComponent: iComponent);
+      case ComponentModel.typeSpacer:
+        return const Spacer();
     }
 
     return const SizedBox.shrink();

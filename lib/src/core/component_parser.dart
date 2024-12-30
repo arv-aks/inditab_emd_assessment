@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:inditab_emd_assessment/src/core/component.dart';
 import 'package:inditab_emd_assessment/src/core/model/component_model.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/column_component.dart';
@@ -5,6 +6,7 @@ import 'package:inditab_emd_assessment/src/core/model/individual_component_model
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/list_view_component.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/network_image_component.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/row_component.dart';
+import 'package:inditab_emd_assessment/src/core/model/individual_component_model/spacer_component.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/text_component.dart';
 
 class JsonDeserializer {
@@ -52,7 +54,9 @@ IComponent? getComponent(
   // Map<String, dynamic>? action,
   bool isVisible = false,
 }) {
+      print("getComponent: TYPE $type");
   switch (type) {
+
     case ComponentModel.typeTEXT:
       final textComponentData =
           data != null ? TextComponentData.fromMap(data) : null;
@@ -196,6 +200,14 @@ IComponent? getComponent(
         type: type,
         data: Multiple(dataList: childrenList),
         style: containerComponentStyle,
+      );
+
+    case ComponentModel.typeSpacer:
+      return SpacerComponent(
+        isVisible: isVisible,
+        type: type,
+        data: null,
+        style: null,
       );
 
     default:

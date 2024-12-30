@@ -22,19 +22,62 @@ class ListViewBuilder extends StatelessWidget {
 
     return Padding(
         padding: style.padding.paddingBuilderToEdgeInsets(),
-        child: ListView.separated(
-          shrinkWrap: shrinkWrap ?? false,
-          scrollDirection: scrollDirection,
-          itemCount: data.dataList.length,
-          itemBuilder: (context, index) {
-            return ComponentBuilder(iComponent: data.dataList[index]);
-          },
-          separatorBuilder: (context, index) {
-            return SizedBox(
-              width: scrollDirection == Axis.horizontal ? spacing : 0.0,
-              height: scrollDirection == Axis.vertical ? spacing : 0.0,
-            );
-          },
-        ));
+        child: scrollDirection == Axis.horizontal
+            ? SingleChildScrollView(
+                scrollDirection: scrollDirection,
+                child: Row(
+                  // mainAxisAlignment: style.horizontalAlignment.toMainAxisAlignment(),
+                  children: List.generate(
+                    data.dataList.length,
+                    (index) {
+                      return Row(
+                        children: [
+                          ComponentBuilder(
+                            iComponent: data.dataList[index],
+                          ),
+                          SizedBox(
+                            width: spacing,
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              )
+            : SingleChildScrollView(
+                scrollDirection: scrollDirection,
+                child: Column(
+                  // mainAxisAlignment: style.horizontalAlignment.toMainAxisAlignment(),
+                  children: List.generate(
+                    data.dataList.length,
+                    (index) {
+                      return Column(
+                        children: [
+                          ComponentBuilder(
+                            iComponent: data.dataList[index],
+                          ),
+                          SizedBox(
+                            width: spacing,
+                          )
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ));
+    //  ListView.separated(
+    //   // shrinkWrap: shrinkWrap ?? false,
+    //   scrollDirection: scrollDirection,
+    //   itemCount: data.dataList.length,
+    //   itemBuilder: (context, index) {
+    //     return ComponentBuilder(iComponent: data.dataList[index]);
+    //   },
+    //   separatorBuilder: (context, index) {
+    //     return SizedBox(
+    //       width: scrollDirection == Axis.horizontal ? spacing : 0.0,
+    //       height: scrollDirection == Axis.vertical ? spacing : 0.0,
+    //     );
+    //   },
+    // ));
   }
 }

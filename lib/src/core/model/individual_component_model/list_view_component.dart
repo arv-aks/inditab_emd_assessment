@@ -64,11 +64,13 @@ class ListViewComponent implements IComponent {
 
 // TextComponentStyle Class
 class ListViewComponentStyle implements IComponentStyle {
+  final num? height;
   final bool? shrinkWrap;
   final num? spacing;
   final PaddingBuilder? padding;
   final String? scrollDirection; //vertical or horizontal.
   ListViewComponentStyle({
+    this.height,
     this.shrinkWrap,
     this.spacing,
     this.padding,
@@ -79,6 +81,7 @@ class ListViewComponentStyle implements IComponentStyle {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'height': height,
       'shrinkWrap': shrinkWrap,
       'spacing': spacing,
       'padding': padding?.toMap(),
@@ -88,14 +91,11 @@ class ListViewComponentStyle implements IComponentStyle {
 
   factory ListViewComponentStyle.fromMap(Map<String, dynamic> map) {
     return ListViewComponentStyle(
+      height: map['height'] != null ? map['height'] as num : null,
       shrinkWrap: map['shrinkWrap'] != null ? map['shrinkWrap'] as bool : null,
       spacing: map['spacing'] != null ? map['spacing'] as num : null,
-      padding: map['padding'] != null
-          ? PaddingBuilder.fromMap(map['padding'] as Map<String, dynamic>)
-          : null,
-      scrollDirection: map['scrollDirection'] != null
-          ? map['scrollDirection'] as String
-          : null,
+      padding: map['padding'] != null ? PaddingBuilder.fromMap(map['padding'] as Map<String,dynamic>) : null,
+      scrollDirection: map['scrollDirection'] != null ? map['scrollDirection'] as String : null,
     );
   }
 
@@ -106,12 +106,15 @@ class ListViewComponentStyle implements IComponentStyle {
           json.decode(source) as Map<String, dynamic>);
 
   ListViewComponentStyle copyWith({
+    num? height,
+    bool? shrinkWrap,
     num? spacing,
     PaddingBuilder? padding,
     String? scrollDirection,
   }) {
     return ListViewComponentStyle(
-      shrinkWrap: shrinkWrap ?? shrinkWrap,
+      height: height ?? this.height,
+      shrinkWrap: shrinkWrap ?? this.shrinkWrap,
       spacing: spacing ?? this.spacing,
       padding: padding ?? this.padding,
       scrollDirection: scrollDirection ?? this.scrollDirection,
@@ -119,19 +122,28 @@ class ListViewComponentStyle implements IComponentStyle {
   }
 
   @override
-  String toString() =>
-      'ListViewComponentStyle(spacing: $spacing, padding: $padding, scrollDirection: $scrollDirection)';
+  String toString() {
+    return 'ListViewComponentStyle(height: $height, shrinkWrap: $shrinkWrap, spacing: $spacing, padding: $padding, scrollDirection: $scrollDirection)';
+  }
 
   @override
   bool operator ==(covariant ListViewComponentStyle other) {
     if (identical(this, other)) return true;
-
-    return other.spacing == spacing &&
-        other.padding == padding &&
-        other.scrollDirection == scrollDirection;
+  
+    return 
+      other.height == height &&
+      other.shrinkWrap == shrinkWrap &&
+      other.spacing == spacing &&
+      other.padding == padding &&
+      other.scrollDirection == scrollDirection;
   }
 
   @override
-  int get hashCode =>
-      spacing.hashCode ^ padding.hashCode ^ scrollDirection.hashCode;
+  int get hashCode {
+    return height.hashCode ^
+      shrinkWrap.hashCode ^
+      spacing.hashCode ^
+      padding.hashCode ^
+      scrollDirection.hashCode;
+  }
 }
