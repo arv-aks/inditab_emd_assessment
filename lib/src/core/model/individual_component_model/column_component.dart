@@ -79,7 +79,7 @@ class ColumnComponentStyle implements IComponentStyle {
     return <String, dynamic>{
       'spacing': spacing,
       'padding': padding?.toMap(),
-      'horizontal_alignment': horizontalAlignment,
+      'horizontalAlignment': horizontalAlignment,
     };
   }
 
@@ -89,8 +89,8 @@ class ColumnComponentStyle implements IComponentStyle {
       padding: map['padding'] != null
           ? PaddingBuilder.fromMap(map['padding'] as Map<String, dynamic>)
           : null,
-      horizontalAlignment: map['horizontal_alignment'] != null
-          ? map['horizontal_alignment'] as String
+      horizontalAlignment: map['horizontalAlignment'] != null
+          ? map['horizontalAlignment'] as String
           : null,
     );
   }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:inditab_emd_assessment/src/core/component.dart';
 import 'package:inditab_emd_assessment/src/core/model/component_model.dart';
 import 'package:inditab_emd_assessment/src/presentation/individual_component_builder/column_builder.dart';
+import 'package:inditab_emd_assessment/src/presentation/individual_component_builder/container_builder.dart';
+import 'package:inditab_emd_assessment/src/presentation/individual_component_builder/list_view_builder.dart';
 import 'package:inditab_emd_assessment/src/presentation/individual_component_builder/network_image_builder.dart';
 import 'package:inditab_emd_assessment/src/presentation/individual_component_builder/row_builder.dart';
 import 'package:inditab_emd_assessment/src/presentation/individual_component_builder/text_builder.dart';
@@ -24,6 +26,10 @@ class ComponentBuilder extends StatelessWidget {
         return ColumnBuilder(iComponent: iComponent);
       case ComponentModel.typeNetworkImage:
         return NetworkImageBuilder(iComponent: iComponent);
+      case ComponentModel.typeListview:
+        return ListViewBuilder(iComponent: iComponent);
+      case ComponentModel.typeContainer:
+        return ContainerBuilder(iComponent: iComponent);
     }
 
     return const SizedBox.shrink();

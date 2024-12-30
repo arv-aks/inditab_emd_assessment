@@ -1,12 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:inditab_emd_assessment/src/core/component.dart';
 import 'package:inditab_emd_assessment/src/core/component_parser.dart';
 import 'package:inditab_emd_assessment/src/core/model/core.dart';
 
-class RowComponent implements IComponent {
+class ListViewComponent implements IComponent {
   @override
   bool? isVisible;
 
@@ -19,14 +18,14 @@ class RowComponent implements IComponent {
   @override
   ComponentDataWrapper? data;
 
-  RowComponent({
+  ListViewComponent({
     this.isVisible,
     this.style,
     this.type,
     this.data,
   });
 
-  factory RowComponent.fromMap(Map<String, dynamic> map) {
+  factory ListViewComponent.fromMap(Map<String, dynamic> map) {
     // Parse the children components
     ComponentDataWrapper? dataWrapper;
     if (map['data'] != null && map['data']['children'] != null) {
@@ -52,10 +51,11 @@ class RowComponent implements IComponent {
       dataWrapper = Multiple<IComponent>(dataList: childrenList);
     }
 
-    return RowComponent(
+    return ListViewComponent(
         isVisible: map['isVisible'] != null ? map['isVisible'] as bool : null,
         style: map['style'] != null
-            ? RowComponentStyle.fromMap(map['style'] as Map<String, dynamic>)
+            ? ListViewComponentStyle.fromMap(
+                map['style'] as Map<String, dynamic>)
             : null,
         type: map['type'] != null ? map['type'] as String : null,
         data: dataWrapper);
@@ -63,59 +63,75 @@ class RowComponent implements IComponent {
 }
 
 // TextComponentStyle Class
-class RowComponentStyle implements IComponentStyle {
+class ListViewComponentStyle implements IComponentStyle {
+  final bool? shrinkWrap;
   final num? spacing;
   final PaddingBuilder? padding;
-  final String? horizontalAlignment;
-  RowComponentStyle({
+  final String? scrollDirection; //vertical or horizontal.
+  ListViewComponentStyle({
+    this.shrinkWrap,
     this.spacing,
     this.padding,
-    this.horizontalAlignment,
+    this.scrollDirection,
   });
 
   // final EdgeInsets? padding;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'shrinkWrap': shrinkWrap,
       'spacing': spacing,
       'padding': padding?.toMap(),
-      'horizontalAlignment': horizontalAlignment,
+      'scrollDirection': scrollDirection,
     };
   }
 
-  factory RowComponentStyle.fromMap(Map<String, dynamic> map) {
-    return RowComponentStyle(
-      spacing: map['spacing'],
+  factory ListViewComponentStyle.fromMap(Map<String, dynamic> map) {
+    return ListViewComponentStyle(
+      shrinkWrap: map['shrinkWrap'] != null ? map['shrinkWrap'] as bool : null,
+      spacing: map['spacing'] != null ? map['spacing'] as num : null,
       padding: map['padding'] != null
           ? PaddingBuilder.fromMap(map['padding'] as Map<String, dynamic>)
           : null,
-      horizontalAlignment: map['horizontalAlignment'] != null
-          ? map['horizontalAlignment'] as String
+      scrollDirection: map['scrollDirection'] != null
+          ? map['scrollDirection'] as String
           : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory RowComponentStyle.fromJson(String source) =>
-      RowComponentStyle.fromMap(json.decode(source) as Map<String, dynamic>);
-}
+  factory ListViewComponentStyle.fromJson(String source) =>
+      ListViewComponentStyle.fromMap(
+          json.decode(source) as Map<String, dynamic>);
 
-extension RowHorizontalAlignmentExtension on String? {
-  MainAxisAlignment toMainAxisAlignment() {
-    switch (this) {
-      case "sB":
-        return MainAxisAlignment.spaceBetween;
-      case "center":
-        return MainAxisAlignment.center;
-      case "sA":
-        return MainAxisAlignment.spaceAround;
-      case "sE":
-        return MainAxisAlignment.spaceEvenly;
-      case "end":
-        return MainAxisAlignment.end;
-      default:
-        return MainAxisAlignment.start;
-    }
+  ListViewComponentStyle copyWith({
+    num? spacing,
+    PaddingBuilder? padding,
+    String? scrollDirection,
+  }) {
+    return ListViewComponentStyle(
+      shrinkWrap: shrinkWrap ?? shrinkWrap,
+      spacing: spacing ?? this.spacing,
+      padding: padding ?? this.padding,
+      scrollDirection: scrollDirection ?? this.scrollDirection,
+    );
   }
+
+  @override
+  String toString() =>
+      'ListViewComponentStyle(spacing: $spacing, padding: $padding, scrollDirection: $scrollDirection)';
+
+  @override
+  bool operator ==(covariant ListViewComponentStyle other) {
+    if (identical(this, other)) return true;
+
+    return other.spacing == spacing &&
+        other.padding == padding &&
+        other.scrollDirection == scrollDirection;
+  }
+
+  @override
+  int get hashCode =>
+      spacing.hashCode ^ padding.hashCode ^ scrollDirection.hashCode;
 }

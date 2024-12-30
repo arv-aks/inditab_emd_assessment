@@ -17,17 +17,45 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final _dio = ApiProvider.getDio();
 
+  bool isLoading = false;
+  String error = "";
+
   ComponentModel? componentModel;
 
+  @override
+  initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        getData();
+      },
+    );
+  }
+
   Future<dynamic> getData() async {
+    setState(() {
+      isLoading = true;
+      error = "";
+    });
+    componentModel = null;
     final response = await _dio.get(Constants.baseUrl);
     Fluttertoast.showToast(msg: "result: ${response.data}");
+
+    debugPrint("--> response: ${response.data}", wrapWidth: 1024);
 
     try {
       componentModel = JsonDeserializer().deserialize(response.data);
     } catch (e) {
       print("-->errro: $e");
+      setState(() {
+        error = e.toString();
+      });
     }
+
+    setState(() {
+      isLoading = false;
+    });
 
     return response.data;
   }
@@ -35,26 +63,24 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () async {
+                getData();
+              },
+              icon: const Icon(Icons.refresh))
+        ],
+      ),
       body: SafeArea(
         child: Center(
-          child: FutureBuilder(
-            future: getData(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                print("--> snpshot: ${componentModel?.myObject.first?.type}");
-                return ComponentBuilder(
-                  iComponent: componentModel?.myObject.first,
-                );
-              }
-        
-              if (snapshot.hasData) {
-                return Text("Error: ${snapshot.error}");
-              }
-        
-              return const CustomLoader();
-            },
-          ),
-        ),
+            child: isLoading
+                ? const CustomLoader()
+                : error.isNotEmpty
+                    ? Text(error)
+                    : ComponentBuilder(
+                        iComponent: componentModel?.myObject.first,
+                      )),
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:inditab_emd_assessment/src/core/model/component_model.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/column_component.dart';
+import 'package:inditab_emd_assessment/src/core/model/individual_component_model/container_component.dart';
+import 'package:inditab_emd_assessment/src/core/model/individual_component_model/list_view_component.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/network_image_component.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/row_component.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/text_component.dart';
@@ -21,7 +23,10 @@ abstract class IComponent {
         return ColumnComponent.fromMap(map);
       case ComponentModel.typeNetworkImage:
         return NetworkImageComponent.fromMap(map);
-
+      case ComponentModel.typeListview:
+        return ListViewComponent.fromMap(map);
+      case ComponentModel.typeContainer:
+        return ContainerComponent.fromMap(map);
       // // Add more cases as needed
       default:
         return null;

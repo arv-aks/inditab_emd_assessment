@@ -1,6 +1,8 @@
 import 'package:inditab_emd_assessment/src/core/component.dart';
 import 'package:inditab_emd_assessment/src/core/model/component_model.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/column_component.dart';
+import 'package:inditab_emd_assessment/src/core/model/individual_component_model/container_component.dart';
+import 'package:inditab_emd_assessment/src/core/model/individual_component_model/list_view_component.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/network_image_component.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/row_component.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/text_component.dart';
@@ -135,6 +137,65 @@ IComponent? getComponent(
         type: type,
         data: Single(data: networkImageComponentData),
         style: networkImageComponentStyle,
+      );
+
+    case ComponentModel.typeListview:
+      final listViewComponentStyle =
+          style != null ? ListViewComponentStyle.fromMap(style) : null;
+
+      final children = data?['children'] as List;
+      final childrenList = children.map<IComponent?>((item) {
+        if (item != null) {
+          final childType = item['type'] as String?;
+          final childData = item['data'] as Map<String, dynamic>?;
+          final childStyle = item['style'] as Map<String, dynamic>?;
+
+          // Create the child component based on its type
+          return getComponent(
+            childType!,
+            data: childData,
+            style: childStyle,
+            // action: childAction,
+            // isVisible: item['isVisible'] as bool?,
+          );
+        }
+        return null;
+      }).toList();
+
+      return ListViewComponent(
+        isVisible: isVisible,
+        type: type,
+        data: Multiple(dataList: childrenList),
+        style: listViewComponentStyle,
+      );
+    case ComponentModel.typeContainer:
+      final containerComponentStyle =
+          style != null ? ContainerComponentStyle.fromMap(style) : null;
+
+      final children = data?['children'] as List;
+      final childrenList = children.map<IComponent?>((item) {
+        if (item != null) {
+          final childType = item['type'] as String?;
+          final childData = item['data'] as Map<String, dynamic>?;
+          final childStyle = item['style'] as Map<String, dynamic>?;
+
+          // Create the child component based on its type
+          return getComponent(
+            childType!,
+            data: childData,
+            style: childStyle,
+            // action: childAction,
+            // isVisible: item['isVisible'] as bool?,
+          );
+        }
+        return null;
+      }).toList();
+
+      return ContainerComponent(
+        isVisible: isVisible,
+        type: type,
+        data: Multiple(dataList: childrenList),
+        style: containerComponentStyle,
       );
 
     default:
