@@ -47,7 +47,8 @@ Parsing: The JSON is parsed by component_parser.dart into a ComponentModel.
 Rendering: The ComponentBuilder dynamically renders the UI components based on the parsed data.
 
 Sample json for text component: 
-```{
+```
+{
     "children": [
         {
             "type": "text",
@@ -61,6 +62,71 @@ Sample json for text component:
             }
         }
     ]
-}```
+}
+```
+
+
+## Key Classes and Their Roles
+
+- component_parser.dart
+  - JsonDeserializer
+    - Converts JSON into a ComponentModel.
+    - Parses individual components based on their type.
+
+- component.dart
+  - IComponent
+    - Abstract base class for all components.
+    - Includes type, data, style, and isVisible properties.
+
+  - IComponentStyle
+    - Abstract base class for styling components.
+
+  - IComponentData
+    - Abstract base class for component data.
+
+  - ComponentDataWrapper
+    -A sealed class for wrapping single or multiple component data objects.
+
+- component_builder.dart
+  - Dynamically selects and renders the appropriate builder based on the component type.
+    Example Component: TextComponent
+
+### Model
+
+- TextComponentData
+  - Stores the text to be displayed.
+- TextComponentStyle
+  - Contains style properties such as fontSize, fontColor, and fontWeight.
+
+### Builder
+- The TextBuilder renders a Text widget with the specified data and style.
+
+## Advantages of the Approach
+
+Dynamic Updates: UI changes can be made without requiring app updates.
+
+Scalable: Easily extendable to support new components.
+
+Separation of Concerns: Clear distinction between data parsing, logic, and presentation layers.
+
+Customizable: Each component can have its own builder and style configurations.
+
+## Disadvantages of the Approach
+
+Performance Overhead: Parsing large JSON files at runtime can impact app performance.
+
+Debugging Complexity: Debugging issues related to incorrect JSON or component rendering can be challenging.
+
+Increased Maintenance: Keeping server-side JSON and client-side parsing logic in sync requires effort.
+
+Potential for Large JSON: For complex UIs, the JSON configuration can become very large and difficult to manage.
+
+## Future Enhancements
+
+Support for more complex components (e.g., forms, sliders).
+
+Add action handling for interactive components.
+
+Optimize JSON parsing and error handling.
 
 
