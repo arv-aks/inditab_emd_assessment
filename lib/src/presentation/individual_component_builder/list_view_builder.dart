@@ -57,27 +57,15 @@ class ListViewBuilder extends StatelessWidget {
                             iComponent: data.dataList[index],
                           ),
                           SizedBox(
-                            width: spacing,
+                            height: spacing,
                           )
+                         
                         ],
                       );
                     },
                   ),
                 ),
               ));
-    //  ListView.separated(
-    //   // shrinkWrap: shrinkWrap ?? false,
-    //   scrollDirection: scrollDirection,
-    //   itemCount: data.dataList.length,
-    //   itemBuilder: (context, index) {
-    //     return ComponentBuilder(iComponent: data.dataList[index]);
-    //   },
-    //   separatorBuilder: (context, index) {
-    //     return SizedBox(
-    //       width: scrollDirection == Axis.horizontal ? spacing : 0.0,
-    //       height: scrollDirection == Axis.vertical ? spacing : 0.0,
-    //     );
-    //   },
-    // ));
+
   }
 }

@@ -6,7 +6,6 @@ class ComponentModel {
   ComponentModel({
     required this.myObject,
   });
-
   // Component Types as Constants
   static const String typeTEXT = "text";
   static const String typeROW = "row";
@@ -15,8 +14,6 @@ class ComponentModel {
   static const String typeListview = "listView";
   static const String typeContainer = "container";
   static const String typeSpacer = "spacer";
-  
-
   factory ComponentModel.fromMap(Map<String, dynamic> map) {
     return ComponentModel(
       myObject: List<IComponent?>.from(
@@ -26,7 +23,4 @@ class ComponentModel {
       ),
     );
   }
-
-  @override
-  String toString() => 'ComponentModel(myObject: $myObject)';
 }

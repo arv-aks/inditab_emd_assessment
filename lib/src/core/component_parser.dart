@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:inditab_emd_assessment/src/core/component.dart';
 import 'package:inditab_emd_assessment/src/core/model/component_model.dart';
 import 'package:inditab_emd_assessment/src/core/model/individual_component_model/column_component.dart';
@@ -54,7 +53,7 @@ IComponent? getComponent(
   // Map<String, dynamic>? action,
   bool isVisible = false,
 }) {
-      print("getComponent: TYPE $type");
+
   switch (type) {
 
     case ComponentModel.typeTEXT:

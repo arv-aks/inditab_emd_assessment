@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
     });
     componentModel = null;
     final response = await _dio.get(Constants.baseUrl);
-    Fluttertoast.showToast(msg: "result: ${response.data}");
+    // Fluttertoast.showToast(msg: "result: ${response.data}");
 
     debugPrint("--> response: ${response.data}", wrapWidth: 1024);
 
