@@ -1,3 +1,14 @@
+## Demo
+- Explanation of demo
+  - First step showing a text from server and update it by changing it properties like fontsize and font weight.
+  - Second step showing a scrollable list vertially contains four Cards
+  - Third step: converted that scrollable list from vertical to horizontal.
+  - NOTE: server used: Github pages. So, every time I updated some data and it'll take some time to able to show that updated data when we hit the url. 
+
+https://github.com/user-attachments/assets/3c5e85db-467f-41b2-8092-bfa87d8b3c88
+
+
+
 # Server-Driven UI in Flutter (APPROACH)
 
 This project demonstrates an architecture for implementing a Server-Driven UI in Flutter. By using this approach, UI updates can be handled dynamically from the server without requiring app updates.
