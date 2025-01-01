@@ -1,3 +1,3 @@
-# inditab_emd_assessment
+# Server-Driven UI in Flutter (APPROACH)
 
-A new Flutter project.
+This project demonstrates an architecture for implementing a Server-Driven UI in Flutter. By using this approach, UI updates can be handled dynamically from the server without requiring app updates.
