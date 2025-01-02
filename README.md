@@ -136,6 +136,13 @@ Potential for Large JSON: For complex UIs, the JSON configuration can become ver
 
 Support for more complex components (e.g., forms, sliders).
 
+
+#### Other Ways, Using existing libraries on pub.dev
+- https://pub.dev/packages/divkit
+- https://pub.dev/packages/mirai
+- https://pub.dev/packages/shark
+- https://pub.dev/packages/serve_dynamic_ui
+
 Add action handling for interactive components.
 
 Optimize JSON parsing and error handling.
